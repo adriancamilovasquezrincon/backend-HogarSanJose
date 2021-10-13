@@ -6,8 +6,8 @@ import gasto from '../routes/gasto.js';
 import ingreso from '../routes/ingreso.js';
 import persona from '../routes/persona.js';
 import rubro from '../routes/rubro.js';
-import tipoGasto from '../routes/tipoGasto.js';
 import usuario from '../routes/usuario.js';
+import contacto from '../routes/contacto.js';
 
 class Server {
     constructor() {
@@ -26,8 +26,8 @@ class Server {
         this.app.use('/api/ingreso',ingreso)
         this.app.use('/api/persona',persona)
         this.app.use('/api/rubro',rubro)
-        this.app.use('/api/tipoGasto',tipoGasto)
         this.app.use('/api/usuario',usuario)
+        this.app.use('/api/contacto',contacto)
     }
     async dbConexion(){
        await dbConection()

@@ -1,10 +1,10 @@
 import Persona from '../models/persona.js';
-import { response, request } from 'express';
 import { subirArchivo } from '../db-helpers/subirArchivo.js';
-import path from 'path/posix';
+import path from 'path';
+import url from 'url'
 import * as fs from 'fs'
 const personas = {
-    personaGet: async (req, res = response) => {
+    personaGet: async (req, res) => {
         const { value } = req.query;
         const persona = await Persona
             .find({
@@ -13,7 +13,6 @@ const personas = {
                     { nombres: new RegExp(value, 'i') },
                     { apellidos: new RegExp(value, 'i') },
                     { correo: new RegExp(value, 'i') },
-                    { cargo: new RegExp(value, 'i') },
                     { lugarNacimiento: new RegExp(value, 'i') },
                 ]
             })
@@ -23,10 +22,10 @@ const personas = {
         })
     },
 
-    personaPost: async (req, res = response) => {
+    personaPost: async (req, res) => {
         console.log(req.body)
-        const {tipoPersona, nit, nroDocumento, nombres, apellidos, telefono, correo, cargo, lugarNacimiento, estado} = req.body;
-        const persona = new Persona({ tipoPersona, nit, nroDocumento, nombres, apellidos, telefono, correo, cargo, lugarNacimiento, estado })
+        const {tipoPersona, nit, numDocumento, nombres, apellidos, telefono, correo, lugarNacimiento, estado} = req.body;
+        const persona = new Persona({ tipoPersona, nit, numDocumento, nombres, apellidos, telefono, correo, lugarNacimiento, estado })
 
         await persona.save();
         res.json({
@@ -34,7 +33,7 @@ const personas = {
         })
 
     },
-    personaCargarArchivo: async (req, res = response)=>{
+    personaCargarArchivo: async (req, res)=>{
         const {id} =req.params;
         try {
             const nombre=await subirArchivo(req.files,undefined)

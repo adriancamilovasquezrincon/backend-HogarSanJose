@@ -1,4 +1,5 @@
 import Ingreso from '../models/ingreso.js'
+// import modificarRubro from '../db-helpers/modificarRubro.js'
 const ingresos = {
     ingresoGet: async (req, res) => {
         const { value } = req.query;
@@ -9,24 +10,22 @@ const ingresos = {
                     { descripcion: new RegExp(value, 'i') },
                 ]
             })
-            .populate('rubro','nombre')
             .populate('persona','tipoPersona')
+            .populate('rubro','nombre')
             .sort({ 'createdAt': -1 })
         res.json({
             ingreso
         })
     },
-
-    ingresoPost: async (req, res) => {
-        console.log(req.body)
-        const { rubro, persona, nombreIngreso, valorIngreso,  descripcion, estado} = req.body;
-        const ingreso = new Ingreso({  rubro, persona, nombreIngreso, valorIngreso, descripcion, estado })
-
+    ingresoPost : async (req, res) => {
+        const { persona, rubro, valorIngreso,  descripcion, estado } = req.body;
+        const ingreso = new Ingreso({
+             persona, rubro, valorIngreso,  descripcion,  estado
+        });
         await ingreso.save();
         res.json({
-            ingreso
-        })
-
+          ingreso,
+        });
     },
     ingresoPut: async (req, res) => {
         const { id } = req.params;

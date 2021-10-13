@@ -33,7 +33,7 @@ router.put('/desactivar/:id',[
     check('id').custom(existeId),
 ],rubros.rubroDesactivar);
 
-router.put('/borrar/:id',[
+router.delete('/borrar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
 ],rubros.rubroDelete);

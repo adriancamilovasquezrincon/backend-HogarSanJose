@@ -2,9 +2,7 @@ import {Router} from 'express';
 import { check } from 'express-validator';
 import {gastos} from '../controllers/gasto.js';
 
-import {existeId} from '../db-helpers/gasto.js';
-import {existeTipoGasto} from '../db-helpers/gasto.js';
-import {existePersona} from '../db-helpers/gasto.js';
+import {existeId, existeValorGasto} from '../db-helpers/gasto.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { validarJWT } from '../middlewares/validar-JWT.js';
 const router=Router();
@@ -13,11 +11,14 @@ router.get('/',[
     validarCampos
 ],gastos.gastoGet);
 
+// router.post('/',[
+//     new Date().getDay(),
+//     new Date()
+// ],gastos.gastoFechas)
+
 router.post('/guardar',[
-    check('tipoGasto', 'El tipoGasto  es obligatorio en el gasto').not().isEmpty(),
-    check('tipoGasto').custom(existeTipoGasto),
-    check('persona', 'El tipo de persona es obligatorio').not().isEmpty(),
-    check('persona').custom(existePersona),
+    check('valorGasto', 'El valorGasto es obligatorio para el rubro').not().isEmpty(),
+    check('valorGasto').custom(existeValorGasto),
     validarCampos
 ],gastos.gastoPost);
 
@@ -36,7 +37,7 @@ router.put('/desactivar/:id',[
     check('id').custom(existeId),
 ],gastos.gastoDesactivar);
 
-router.put('/borrar/:id',[
+router.delete('/borrar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
 ],gastos.gastoDelete);

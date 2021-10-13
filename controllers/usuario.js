@@ -37,18 +37,18 @@ const usuarios = {
         const {email,password}=req.body;
         const usuario=await Usuario.findOne({email})
         if(! usuario){
-            return res.json({
+            return res.status(401).json({
                 msg:'Usuario/Password no son correctos correo'
             })
         }
         if (usuario.estado===0){
-            return res.json({
-                msg:'Usuario/Password no son correctos:Estado'
+            return res.status(401).json({
+                msg:'Usuario inactivo:Estado'
             })
         }
         const validarPassword=bcryptjs.compareSync(password,usuario.password)
         if(! validarPassword){
-            return res.json({
+            return res.status(401).json({
                 msg: 'Usuario/Password no son correctos:Password'
             })
         }

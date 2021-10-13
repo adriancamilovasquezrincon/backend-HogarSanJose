@@ -2,9 +2,7 @@ import {Router} from 'express';
 import { check } from 'express-validator';
 import {ingresos} from '../controllers/ingreso.js';
 
-import { existeId } from '../db-helpers/ingreso.js';
-import { existeRubro } from '../db-helpers/ingreso.js';
-import { existePersona } from '../db-helpers/ingreso.js';
+import { existeId, existeValorIngreso } from '../db-helpers/ingreso.js';
 import {validarCampos} from '../middlewares/validarCampos.js';
 import { validarJWT } from '../middlewares/validar-JWT.js';
 const router=Router();
@@ -14,10 +12,8 @@ router.get('/',[
 ],ingresos.ingresoGet);
 
 router.post('/guardar',[
-    check('rubro', 'El  rubro es obligatorio').not().isEmpty(),
-    check('rubro').custom(existeRubro),
-    check('persona', 'La persona  es obligatoria').not().isEmpty(),
-    check('persona').custom(existePersona),
+    check('valorIngreso', 'El valorIngreso es obligatorio para el rubro').not().isEmpty(),
+    check('valorIngreso').custom(existeValorIngreso),
     validarCampos
 ],ingresos.ingresoPost);
 
@@ -36,7 +32,7 @@ router.put('/desactivar/:id',[
     check('id').custom(existeId),
 ],ingresos.ingresoDesactivar);
 
-router.put('/borrar/:id',[
+router.delete('/borrar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
 ],ingresos.ingresoDelete);

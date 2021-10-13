@@ -9,23 +9,34 @@ const gastos = {
                 ]
             })
             .populate('persona', 'tipoPersona')
-            .populate('tipoGasto', 'nombreGasto')
             .sort({ 'createdAt': -1 })
         res.json({
             gasto
         })
     },
-
-    gastoPost: async (req, res) => {
-        console.log(req.body)
-        const { tipoGasto, persona, valorGasto,  descripcion, estado } = req.body;
-        const gasto = new Gasto({ tipoGasto, persona, valorGasto, descripcion, estado })
-
-        await gasto.save();
+    gastoFechas: async (req, res) => {
+        const { value } = req.query;
+        const gasto = await Gasto
+            .find({
+                $or: [
+                    { createdAt: new RegExp(value, 'i') },
+                ]
+            })
+            .sort({ 'createdAt': -1 })
         res.json({
             gasto
         })
+    },
+    gastoPost : async (req, res) => {
+        const { persona, nombreGasto, valorGasto,  descripcion, estado } = req.body;
+        const gasto = new Gasto({
+             persona, nombreGasto, valorGasto,  descripcion, estado
+        });
 
+        await gasto.save();
+        res.json({
+          gasto,
+        });
     },
     gastoPut: async (req, res) => {
         const { id } = req.params;
@@ -34,7 +45,7 @@ const gastos = {
         const gasto = await Gasto.findByIdAndUpdate(id, resto)
 
         res.json({
-            gsto
+            gasto
         })
     },
     gastoActivar: async (req, res) => {
