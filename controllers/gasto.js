@@ -23,6 +23,7 @@ const gastos = {
                 ]
             })
             .sort({ 'createdAt': -1 })
+            // let  fechaInicial = new Date,
         res.json({
             gasto
         })

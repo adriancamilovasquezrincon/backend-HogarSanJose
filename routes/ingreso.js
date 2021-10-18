@@ -11,6 +11,12 @@ router.get('/',[
     validarJWT
 ],ingresos.ingresoGet);
 
+router.get('/fechas', [
+    validarCampos,
+    validarJWT
+], ingresos.ingresoFechas
+);
+
 router.post('/guardar',[
     check('valorIngreso', 'El valorIngreso es obligatorio para el rubro').not().isEmpty(),
     check('valorIngreso').custom(existeValorIngreso),

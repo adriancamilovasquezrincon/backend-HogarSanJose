@@ -6,6 +6,7 @@ const IngresoSchema=mongoose.Schema({
     valorIngreso:{type: Number, required: true},
     descripcion:{type:String, maxlength:200,required: true},
     estado:{type:Number, default:1},
+    total:{type:Number, default:0},
     createdAt:{type:Date,default:Date.now}
 })
 

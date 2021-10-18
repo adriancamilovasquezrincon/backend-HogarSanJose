@@ -1,45 +1,45 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import { check } from 'express-validator';
-import {gastos} from '../controllers/gasto.js';
+import { gastos } from '../controllers/gasto.js';
 
-import {existeId, existeValorGasto} from '../db-helpers/gasto.js';
+import { existeId, existeValorGasto } from '../db-helpers/gasto.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { validarJWT } from '../middlewares/validar-JWT.js';
-const router=Router();
-router.get('/',[
+const router = Router();
+router.get('/', [
     validarJWT,
     validarCampos
-],gastos.gastoGet);
+], gastos.gastoGet);
 
-// router.post('/',[
-//     new Date().getDay(),
-//     new Date()
-// ],gastos.gastoFechas)
-
-router.post('/guardar',[
+router.get('/fechas', [
+    validarCampos,
+    validarJWT
+], gastos.gastoFechas
+);
+router.post('/guardar', [
     check('valorGasto', 'El valorGasto es obligatorio para el rubro').not().isEmpty(),
     check('valorGasto').custom(existeValorGasto),
     validarCampos
-],gastos.gastoPost);
+], gastos.gastoPost);
 
-router.put('/actualizar/:id',[
+router.put('/actualizar/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
-],gastos.gastoPut);
+], gastos.gastoPut);
 
-router.put('/activar/:id',[
+router.put('/activar/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
-],gastos.gastoActivar);
+], gastos.gastoActivar);
 
-router.put('/desactivar/:id',[
+router.put('/desactivar/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
-],gastos.gastoDesactivar);
+], gastos.gastoDesactivar);
 
-router.delete('/borrar/:id',[
+router.delete('/borrar/:id', [
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeId),
-],gastos.gastoDelete);
+], gastos.gastoDelete);
 
 export default router;

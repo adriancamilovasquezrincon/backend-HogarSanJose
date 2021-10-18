@@ -17,6 +17,21 @@ const ingresos = {
             ingreso
         })
     },
+    ingresoFechas: async (req, res) => {
+        const { value } = req.query;
+        const ingreso = await Ingreso
+            .find({
+                $or: [
+                    { nombreIngreso: new RegExp(value, 'i') },
+                    { descripcion: new RegExp(value, 'i') },
+                ]
+            })
+            .sort({ 'createdAt': -1 })
+            // let  fechaInicial = new Date,
+        res.json({
+            ingreso
+        })
+    },
     ingresoPost : async (req, res) => {
         const { persona, rubro, valorIngreso,  descripcion, estado } = req.body;
         const ingreso = new Ingreso({
