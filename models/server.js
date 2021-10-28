@@ -22,6 +22,8 @@ class Server {
         this.routes();
     }
     routes() {
+        this.app.use(express.json())
+        this.app.use(express.urlencoded({extended:true}))
         this.app.use('/api/gasto',gasto)
         this.app.use('/api/ingreso',ingreso)
         this.app.use('/api/persona',persona)

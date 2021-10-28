@@ -6,10 +6,10 @@ const existeId=async(id)=>{
     if (! existe) throw new Error (`No existe ingreso para este Id ${id}`)
 }
 
-const existeValorIngreso=async(valorIngreso)=>{
-    const existe=await Ingreso.findOne({valorIngreso})
+const existeDescripcion=async(descripcion)=>{
+    const existe=await Ingreso.findOne({descripcion})
 
-    if (existe) throw new Error ('Ya existe la valorIngreso...')
+    if (existe) throw new Error ('Ya existe la Descripcion...')
 }
 
-export {existeId, existeValorIngreso};
+export {existeId, existeDescripcion};

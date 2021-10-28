@@ -14,20 +14,6 @@ const gastos = {
             gasto
         })
     },
-    gastoFechas: async (req, res) => {
-        const { value } = req.query;
-        const gasto = await Gasto
-            .find({
-                $or: [
-                    { createdAt: new RegExp(value, 'i') },
-                ]
-            })
-            .sort({ 'createdAt': -1 })
-            // let  fechaInicial = new Date,
-        res.json({
-            gasto
-        })
-    },
     gastoPost : async (req, res) => {
         const { persona, nombreGasto, valorGasto,  descripcion, estado } = req.body;
         const gasto = new Gasto({
@@ -71,6 +57,19 @@ const gastos = {
 
         res.json({
             gasto
+        })
+    },
+    gastosByDate: async (req, res) => {
+        const { dateFrom, dateTo } = req.body;
+        const gastosByDate = await Gasto.find({
+            createdAt: {
+                '$gte': new Date(dateFrom+' 00:00:00:00'), 
+                '$lt': new Date(dateTo+' 11:59:59:59')
+            }
+        }).populate('persona', 'tipoPersona')
+
+        res.json({
+            gastosByDate
         })
     }
 }

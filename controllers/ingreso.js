@@ -17,21 +17,6 @@ const ingresos = {
             ingreso
         })
     },
-    ingresoFechas: async (req, res) => {
-        const { value } = req.query;
-        const ingreso = await Ingreso
-            .find({
-                $or: [
-                    { nombreIngreso: new RegExp(value, 'i') },
-                    { descripcion: new RegExp(value, 'i') },
-                ]
-            })
-            .sort({ 'createdAt': -1 })
-            // let  fechaInicial = new Date,
-        res.json({
-            ingreso
-        })
-    },
     ingresoPost : async (req, res) => {
         const { persona, rubro, valorIngreso,  descripcion, estado } = req.body;
         const ingreso = new Ingreso({
@@ -74,6 +59,20 @@ const ingresos = {
 
         res.json({
             ingreso
+        })
+    },
+    ingresosByDate: async (req, res) => {
+        const { dateFrom, dateTo } = req.body;
+        const ingresosByDate = await Ingreso.find({
+            createdAt: {
+                '$gte': new Date(dateFrom+' 00:00:00:00'), 
+                '$lt': new Date(dateTo+' 11:59:59:59')
+            }
+        }).populate('persona', 'tipoPersona')
+        .populate('rubro', 'nombre')
+
+        res.json({
+            ingresosByDate
         })
     }
 }
