@@ -4,8 +4,7 @@
   "description": "Proyecto de control de Ingresos y egresos del Hogar San José de Galán",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "type": "module",
   "author": "Adrian Camilo Vasquez Rincon y Camilo Andres Ortiz Rincon",
