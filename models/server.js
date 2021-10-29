@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import dbConection from '../database/config.js';
-import fileUpload from 'express-fileupload';
 import gasto from '../routes/gasto.js';
 import ingreso from '../routes/ingreso.js';
 import persona from '../routes/persona.js';
@@ -38,11 +37,6 @@ class Server {
         this.app.use(express.json());
         this.app.use(cors());
         this.app.use(express.static('public'))
-        this.app.use(fileUpload({
-            useTempFiles:true,
-            useTempFiles:'/tmp/',
-            createParentPath:true
-        }))
     }
 
     listen() {
