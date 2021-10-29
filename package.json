@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Proyecto de control de Ingresos y egresos del Hogar San José de Galán",
   "main": "app.js",
-    "scripts": {
+  "scripts": {
     "start": "node app.js"
   },
   "type": "module",
